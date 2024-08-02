@@ -1,0 +1,3 @@
+some test text for the lesson
+here's the second line of the file
+and the third one
