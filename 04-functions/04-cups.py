@@ -21,6 +21,16 @@ def try_again():
         print('Sorry, I did not understand you...')
         try_again()
 
+def prettify_result(result_list):
+    result = ''
+    for item in result_list:
+        if bool(item):
+            result += '[o] '
+        else:
+            result += '[ ] '
+
+    return result.strip()
+
 def cups_game(repeat=False, difficulty = None):
     if not repeat:
         print('Hey! Welcome to the Cups Game!')
@@ -40,13 +50,15 @@ def cups_game(repeat=False, difficulty = None):
         print('You won!!!')
     else:
         print(f'No... The ball was under {ball_index + 1} cup')
+    
+    print(prettify_result(cups_list))
 
     want_try_again = try_again()
     if want_try_again:
+        print()
         cups_game(True, difficulty)
     else:
         print('It was nice seeing you, bye!')
         print()
-        return
         
 cups_game()
