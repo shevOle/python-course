@@ -169,3 +169,79 @@ print('safe -> ', blackjack(11,11,9))
 print('bust -> ', blackjack(11,11,10))
 print('safe -> ', blackjack(7,7,7))
 print('bust -> ', blackjack(10,10,10))
+print()
+
+# Give an array, return sum of all the numbers in the array,
+# except ignore sections of numbers starting with 6 and ending with 6.
+# Return 0 for non numbers
+
+def adder(num_list):
+    skip = False
+    result = 0
+
+    index = 0
+    while index < len(num_list):
+        num = num_list[index]
+        is_number = isinstance(num, int)
+        index += 1
+
+        if num == 6 and not skip:
+            skip = True
+            continue
+
+        if num == 9 and skip:
+            skip = False
+            continue
+
+        if skip:
+            continue
+
+        if not is_number:
+            continue
+
+        result += num
+    
+    return result
+
+print('to be 4 -> ', adder([1,2,6,7,8,9,1]))
+print('to be 4 -> ', adder([1,2,6,6,8,9,1]))
+print('to be 11 -> ', adder([1,9,6,7,8,9,1]))
+print('to be 21 -> ', adder([1,2,6,7,9,8,9,1]))
+print('to be 5 -> ', adder([1,2,6,7,9,1,6,8,9,1]))
+print()
+
+# def get_index(li, el):
+#     has_el = bool(li.count(el))
+#     if has_el:
+#         return li.index(el)
+#     else:
+#         return None
+
+# def get_splice_6_9(li):
+#     index_6 = get_index(li, 6)
+#     index_9 = get_index(li, 9)
+    
+#     if not index_6:
+#         return li
+#     else:
+#         return li[index_6:index_9]
+    
+# def adder2(num_list):
+#     li = list(num_list)
+
+#     spliceable = bool(get_index(li, 6))
+#     print(spliceable)
+#     while spliceable:
+#         li = splice_6_9(li)
+#         spliceable = bool(get_index(li, 6))
+
+#     return sum(li)
+
+# print([1,2,3][:None])
+# print(''.join(str([1,2,3,4])))
+# []
+# print('to be 4 -> ', adder2([1,2,6,7,8,9,1]))
+# print('to be 4 -> ', adder2([1,2,6,6,8,9,1]))
+# print('to be 11 -> ', adder2([1,9,6,7,8,9,1]))
+# print('to be 21 -> ', adder2([1,2,6,7,9,8,9,1]))
+# print('to be 5 -> ', adder2([1,2,6,7,9,1,6,8,9,1]))
