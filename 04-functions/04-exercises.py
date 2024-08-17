@@ -171,6 +171,8 @@ print('safe -> ', blackjack(7,7,7))
 print('bust -> ', blackjack(10,10,10))
 print()
 
+print('----------------------------')
+
 # Give an array, return sum of all the numbers in the array,
 # except ignore sections of numbers starting with 6 and ending with 6.
 # Return 0 for non numbers
@@ -246,3 +248,71 @@ print('to be 4 -> ', adder2([1,2,6,6,8,9,1]))
 print('to be 11 -> ', adder2([1,9,6,7,8,9,1]))
 print('to be 21 -> ', adder2([1,2,6,7,9,8,9,1]))
 print('to be 5 -> ', adder2([1,2,6,7,9,1,6,8,9,1]))
+
+print('----------------------------')
+
+# Given a list of integers return True if it comtains 007 in order
+# Return False otherwise
+
+def spy(li):
+    ex_list = [str(item) for item in li]
+    return ''.join(ex_list).find('007') != -1
+
+print('does have 007 -> ', spy([1,2,3,0,0,7,4,5]))
+print('doesn\'t have 007 -> ', spy([1,2,3,0,1,0,7,4,5]))
+print('doesn\'t have 007 -> ', spy([1,2,3,0,0,1,7,4,5]))
+print('does have 007 -> ', spy([1,2,3,0,0,0,7,4,5]))
+print('does have 007 -> ', spy([1,2,0,3,0,0,7,4,5]))
+
+print('----------------------------')
+
+def is_prime(integer):
+    if integer < 2:
+        return False
+    if integer == 2:
+        return True
+    
+    prime = True
+    divider = 2
+    
+    while prime and divider < integer:
+        prime = integer % divider != 0
+        divider += 1
+
+    return prime
+
+def get_primes(init_num):
+    primes_list = [num for num in list(range(init_num + 1)) if num > 1 and is_prime(num)]
+    return (sum(primes_list), len(primes_list))
+
+print(get_primes(100))
+print(get_primes(1000))
+print(get_primes(10000))
+
+print('----------------------------')
+
+big_letters = {
+    'a': '  *  \n * * \n*****\n*   *\n*   *',
+    'b': '**** \n*   *\n**** \n*   *\n**** ',
+    'c': ' ****\n*    \n*    \n*    \n ****',
+    'd': '**** \n*   *\n*   *\n*   *\n**** ',
+    'e': '*****\n*    \n*****\n*    \n*****'
+}
+
+def get_big_letter(char):
+    if char in big_letters:
+        return big_letters[char]
+    else:
+        return 'I dunno, really...'
+
+print(get_big_letter('a'))
+print()
+print(get_big_letter('b'))
+print()
+print(get_big_letter('c'))
+print()
+print(get_big_letter('d'))
+print()
+print(get_big_letter('e'))
+print()
+print(get_big_letter('f'))
