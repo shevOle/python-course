@@ -210,38 +210,39 @@ print('to be 21 -> ', adder([1,2,6,7,9,8,9,1]))
 print('to be 5 -> ', adder([1,2,6,7,9,1,6,8,9,1]))
 print()
 
-# def get_index(li, el):
-#     has_el = bool(li.count(el))
-#     if has_el:
-#         return li.index(el)
-#     else:
-#         return None
+def get_index(li, el, start=0):
+    has_el = bool(li.count(el))
+    if has_el:
+        return li.index(el, start)
+    else:
+        return None
 
-# def get_splice_6_9(li):
-#     index_6 = get_index(li, 6)
-#     index_9 = get_index(li, 9)
+def remove_6_9(li):
+    result = li
+    index_6 = get_index(li, 6)
     
-#     if not index_6:
-#         return li
-#     else:
-#         return li[index_6:index_9]
+    if index_6:
+        result = li[:index_6:]
     
-# def adder2(num_list):
-#     li = list(num_list)
+    index_9 = get_index(li, 9, index_6)
+    if index_9 and index_9 + 1 < len(li):
+        after_9 = li[index_9 + 1::]
+        result.extend(after_9)
+    
+    return result
+    
+def adder2(num_list):
+    li = list(num_list)
 
-#     spliceable = bool(get_index(li, 6))
-#     print(spliceable)
-#     while spliceable:
-#         li = splice_6_9(li)
-#         spliceable = bool(get_index(li, 6))
+    spliceable = bool(get_index(li, 6))
+    while spliceable:
+        li = remove_6_9(li)
+        spliceable = bool(get_index(li, 6))
 
-#     return sum(li)
+    return sum(li)
 
-# print([1,2,3][:None])
-# print(''.join(str([1,2,3,4])))
-# []
-# print('to be 4 -> ', adder2([1,2,6,7,8,9,1]))
-# print('to be 4 -> ', adder2([1,2,6,6,8,9,1]))
-# print('to be 11 -> ', adder2([1,9,6,7,8,9,1]))
-# print('to be 21 -> ', adder2([1,2,6,7,9,8,9,1]))
-# print('to be 5 -> ', adder2([1,2,6,7,9,1,6,8,9,1]))
+print('to be 4 -> ', adder2([1,2,6,7,8,9,1]))
+print('to be 4 -> ', adder2([1,2,6,6,8,9,1]))
+print('to be 11 -> ', adder2([1,9,6,7,8,9,1]))
+print('to be 21 -> ', adder2([1,2,6,7,9,8,9,1]))
+print('to be 5 -> ', adder2([1,2,6,7,9,1,6,8,9,1]))
