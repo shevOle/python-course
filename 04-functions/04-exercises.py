@@ -266,6 +266,8 @@ print('does have 007 -> ', spy([1,2,0,3,0,0,7,4,5]))
 
 print('----------------------------')
 
+# Given an integer return number of prime integers from 0 to the given one
+
 def is_prime(integer):
     if integer < 2:
         return False
@@ -288,8 +290,41 @@ def get_primes(init_num):
 print(get_primes(100))
 print(get_primes(1000))
 print(get_primes(10000))
+print()
+
+def is_prime2(num):
+    if num < 2:
+        return False
+    if num == 2:
+        return True
+    
+    prime = True
+    divider = 3
+    while prime and divider < num:
+        prime = num % divider != 0
+        divider += 2
+
+    return prime
+
+def get_primes2(num):
+    if num < 2:
+        return 0
+    
+    if num == 2:
+        return 1
+
+    primes = [num for num in range(3, num + 1, 2) if is_prime2(num)]
+    return len(primes) + 1
+
+print(get_primes2(100))
+print(get_primes2(1000))
+print(get_primes2(10000))
+
+
 
 print('----------------------------')
+
+# Given a character print a big version of that chracter (from A to E)
 
 big_letters = {
     'a': '  *  \n * * \n*****\n*   *\n*   *',
@@ -316,3 +351,28 @@ print()
 print(get_big_letter('e'))
 print()
 print(get_big_letter('f'))
+
+print('----------------------------')
+
+# Given a list of number return True if list contains values 0, 0 and 7 in order
+# Return false otherwise
+
+def has_007(li):
+    first_0 = get_index(li, 0)
+    if not isinstance(first_0, int) or first_0 > len(li) - 3:
+        return False
+    
+    partial_list = li[first_0 + 1::]
+    second_0 = get_index(partial_list, 0)
+    if not isinstance(second_0, int) or second_0 == len(partial_list) - 1:
+        return False
+    
+    partial_list = partial_list[second_0 + 1::]
+    seven = get_index(partial_list, 7)
+    return isinstance(seven, int)
+
+print('has 007 -> ', has_007([1,2,3,4,0,0,7,8]))
+print('has not 007 -> ', has_007([1,2,3,4,0,7,8]))
+print('has 007 -> ', has_007([1,2,3,4,0,7,0,7,8]))
+print('has not 007 -> ', has_007([1,2,3,4,7,0,0,8]))
+print('has 007 -> ', has_007([1,2,3,4,0,2,3,0,4,0,7,8]))
