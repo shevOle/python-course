@@ -44,3 +44,45 @@ get_case_stat('Hello, Mr. Rogers. How are you this fine Tuesday?')
 print()
 
 print('---------------------------------------')
+
+# Write a function that takes a list and returns a new list with unique elements of the first list
+def unq_list(li):
+    return list(set(li))
+
+my_list = [1,1,2,3,4,1,2,4,2]
+print(f'original list: {my_list}')
+print(f'unique values: {unq_list(my_list)}')
+print()
+
+print('---------------------------------------')
+
+# Write a function to multiply all the numbers in a given list
+def multiply_nums(li):
+    result = 1
+    for num in li:
+        result *= num
+
+    return result
+
+print(f'list to multiply: {my_list}')
+print(f'multiplication result: {multiply_nums(my_list)}')
+print()
+
+print('---------------------------------------')
+
+# Write a function that checks whether a word or phrase is a palindrome or not
+# Palindrom - is a string that reads forward and backward the same
+
+def is_palindrome(st):
+    normalized_str = ''.join([char for char in st if char.isalpha()]).lower()
+    return normalized_str == normalized_str[::-1]
+
+my_word = 'helleh'
+my_word1 = 'hellehe'
+pali_phrase = 'Cigar? Toss it in a can. It is so tragic.'
+print(f'check if {my_word} is a palindrome: {is_palindrome(my_word)}')
+print(f'check if {my_word1} is a palindrome: {is_palindrome(my_word1)}')
+print(f'check if {pali_phrase} is a palindrome: {is_palindrome(pali_phrase)}')
+print()
+
+print('---------------------------------------')
