@@ -86,3 +86,44 @@ print(f'check if {pali_phrase} is a palindrome: {is_palindrome(pali_phrase)}')
 print()
 
 print('---------------------------------------')
+
+# Write a function to check whether a string is pangram (contains every letter of alphabet) or not
+pangram_string = 'The quick brown fox jumps over the lazy dog'
+not_pangram = 'I\'m not a pangram'
+
+from string import ascii_lowercase
+
+def is_pangram(st):
+    letters = set([char.lower() for char in st if str(char).isalpha()])
+    return len(letters) == len(ascii_lowercase)
+
+print(f'String "{pangram_string}" is pangram: {is_pangram(pangram_string)}')
+print(f'String "{not_pangram}" is pangram: {is_pangram(not_pangram)}')
+print()
+
+def is_pangram2(st):
+    letters = [char.lower() for char in st if str(char).isalpha()]
+    sorted_letters = list(set(letters))
+    sorted_letters.sort()
+
+    return sorted_letters == list(ascii_lowercase)
+    # OR
+    # return ''.join(sorted_letters) == ascii_lowercase
+
+print(f'String "{pangram_string}" is pangram: {is_pangram2(pangram_string)}')
+print(f'String "{not_pangram}" is pangram: {is_pangram2(not_pangram)}')
+print()
+
+def is_pangram3(st):
+    is_pangram_string = True    
+    index = 0
+    while is_pangram_string and index < len(ascii_lowercase):
+        letter = ascii_lowercase[index]
+        index += 1
+        is_pangram_string = bool(str(st).count(letter))
+
+    return is_pangram_string
+
+print(f'String "{pangram_string}" is pangram: {is_pangram3(pangram_string)}')
+print(f'String "{not_pangram}" is pangram: {is_pangram3(not_pangram)}')
+print()
