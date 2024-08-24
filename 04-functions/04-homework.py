@@ -54,6 +54,18 @@ print(f'original list: {my_list}')
 print(f'unique values: {unq_list(my_list)}')
 print()
 
+def unq_list2(li):
+    known_elements = []
+    for item in li:
+        if item not in known_elements:
+            known_elements.append(item)
+
+    return known_elements
+
+print(f'original list: {my_list}')
+print(f'unique values: {unq_list2(my_list)}')
+print()
+
 print('---------------------------------------')
 
 # Write a function to multiply all the numbers in a given list
