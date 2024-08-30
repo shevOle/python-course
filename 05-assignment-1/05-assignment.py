@@ -63,5 +63,32 @@ row2 = ['o', 'x', ' ']
 row3 = [' ', 'x', 'o']
 board1 = [row1, row2, row3]
 
-show_board(board1)
-print(get_action_cell(board1))
+# show_board(board1)
+# print(get_action_cell(board1))
+
+def add_player():
+    player = {
+        'name': None,
+        'side': None,
+    }
+    
+    while not player['name']:
+        name = input('What is your name: ').strip()
+
+        if len(name) == 0:
+            print('Please provide a name')
+            continue
+        
+        player['name'] = name
+
+    while not player['side']:
+        side = input('What side will you choose (X or O): ').strip().lower()
+
+        if side not in ['x', 'o']:
+            print('Please, choose either X or O')
+            continue
+        
+        player['side'] = side
+
+    return player    
+
