@@ -92,3 +92,28 @@ def add_player():
 
     return player    
 
+def start_log(user, cell_index):
+    history = []
+
+    def show_log():
+        for rec in history:
+            print(f'{str(rec['user']['name']).capitalize()} placed {str(rec['user']['side']).upper()} to cell #{rec['move']}')
+
+    log = {
+        'history': history,
+        'write': lambda user, cell_index: history.append({ 'user': user, 'move': cell_index + 1 }),
+        'show': show_log
+    }
+
+    log['write'](user, cell_index)
+
+    return log 
+
+
+# player1 = add_player()
+# log_journal = start_log(player1, 9)
+# log_journal['write'](player1, 3)
+# log_journal['write'](player1, 1)
+# log_journal['write'](player1, 2)
+# log_journal['write'](player1, 7)
+# log_journal['show']()
