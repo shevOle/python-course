@@ -58,8 +58,8 @@ def get_action_cell(board):
     
     return chosen_cell_index
 
-row1 = [' ', 'x', ' ']
-row2 = ['o', 'x', ' ']
+row1 = ['o', 'x', ' ']
+row2 = ['o', 'o', ' ']
 row3 = [' ', 'x', 'o']
 board1 = [row1, row2, row3]
 
@@ -117,3 +117,40 @@ def start_log(user, cell_index):
 # log_journal['write'](player1, 2)
 # log_journal['write'](player1, 7)
 # log_journal['show']()
+
+def make_a_move(player,board):
+    print(f'{player['name'].capitalize()} put a {player['side'].upper()} on a board...')
+    action_cell_index = get_action_cell(board)
+    board[action_cell_index] = player['side']
+
+
+
+def check_winner(board, players):
+    cells = list(board[0]).copy()
+    cells.extend(board[1])
+    cells.extend(board[2])
+
+    winning_combinations = [
+        [0,1,2],
+        [3,4,5],
+        [6,7,8],
+        [0,4,8],
+        [2,4,6],
+        [0,3,4],
+        [1,4,7],
+        [2,5,8]
+    ]
+
+    game_winner = None
+    for combination in winning_combinations:
+        state = [cells[ind].lower() for ind in combination]
+        check = list(map(lambda player: state.count(player['side']) == 3, players))
+        
+        if True in check:
+            game_winner = players[check.index(True)]
+            break
+
+    return game_winner
+
+winner = check_winner(board1, [{ 'name': 'aaaaa', 'side': 'x' }, { 'name': 'nnnn', 'side': 'o' }])
+print(winner)
