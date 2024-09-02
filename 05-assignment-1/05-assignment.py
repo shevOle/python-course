@@ -124,11 +124,14 @@ def make_a_move(player,board):
     board[action_cell_index] = player['side']
 
 
-
-def check_winner(board, players):
-    cells = list(board[0]).copy()
+def get_cells(board):
+    cells = board[0].copy()
     cells.extend(board[1])
     cells.extend(board[2])
+    return cells
+
+def check_winner(board, players):
+    cells = get_cells(board)
 
     winning_combinations = [
         [0,1,2],
@@ -154,3 +157,7 @@ def check_winner(board, players):
 
 winner = check_winner(board1, [{ 'name': 'aaaaa', 'side': 'x' }, { 'name': 'nnnn', 'side': 'o' }])
 print(winner)
+
+
+def board_is_full(board):
+    return get_cells(board).count(' ') == 0
