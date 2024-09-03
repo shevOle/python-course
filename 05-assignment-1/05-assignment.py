@@ -161,3 +161,22 @@ print(winner)
 
 def board_is_full(board):
     return get_cells(board).count(' ') == 0
+
+def make_turn(board, players):
+    cells = get_cells(board)
+    turns_done = (len(cells) - cells.count(' ')) / 2
+
+    print(f'Turn #{turns_done + 1} begins...')
+
+    winner = None
+
+    for player in players:
+        make_a_move(player, board)
+        winner = check_winner(board, players)
+
+        if winner:
+            print(f'{player['name']} won, congratulations!!!!')
+            break
+
+    return winner
+        
