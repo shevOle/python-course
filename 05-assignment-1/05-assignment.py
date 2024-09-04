@@ -1,3 +1,5 @@
+from math import floor
+
 # Show a row for any number of cells
 def show_row(row):
     printed_row = ''
@@ -25,7 +27,11 @@ def show_board(rows):
 # Prepare playing board
 def get_board(cell_number=3):
     row = [' '] * cell_number
-    board = [row] * cell_number
+    board = []
+
+    for _ in range(0, cell_number):
+        board.append(row.copy())
+
     return board  
   
 # board1 = get_board(9)
@@ -66,10 +72,10 @@ board1 = [row1, row2, row3]
 # show_board(board1)
 # print(get_action_cell(board1))
 
-def add_player():
+def add_player(chosen_side=None):
     player = {
         'name': None,
-        'side': None,
+        'side': chosen_side,
     }
     
     while not player['name']:
@@ -119,9 +125,18 @@ def start_log(user, cell_index):
 # log_journal['show']()
 
 def make_a_move(player,board):
-    print(f'{player['name'].capitalize()} put a {player['side'].upper()} on a board...')
+    print(f'{player['name'].capitalize()}, put a {player['side'].upper()} on a board...')
+
     action_cell_index = get_action_cell(board)
-    board[action_cell_index] = player['side']
+    row_index = floor(action_cell_index / 3)
+    cell_index = action_cell_index % 3
+
+    board[row_index][cell_index] = player['side']
+    
+    print()
+    show_board(board)
+    print()
+
 
 
 def get_cells(board):
@@ -139,7 +154,7 @@ def check_winner(board, players):
         [6,7,8],
         [0,4,8],
         [2,4,6],
-        [0,3,4],
+        [0,3,6],
         [1,4,7],
         [2,5,8]
     ]
