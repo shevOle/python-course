@@ -164,7 +164,13 @@ def board_is_full(board):
 
 def make_turn(board, players):
     cells = get_cells(board)
-    turns_done = (len(cells) - cells.count(' ')) / 2
+    free_cells = cells.count(' ')
+
+    if not bool(free_cells):
+        print('No free cells left...')
+        return None
+
+    turns_done = (len(cells) - free_cells) / 2
 
     print(f'Turn #{turns_done + 1} begins...')
 
