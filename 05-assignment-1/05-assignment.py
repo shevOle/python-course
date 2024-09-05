@@ -201,3 +201,16 @@ def make_turn(board, players):
 
     return winner
         
+def try_again():
+    response = None
+
+    while not response:
+        inp = input('Want to try again (y/n)?')
+
+        if inp.lower() not in ['y', 'n']:
+            print("Please, provide either 'y' or 'n'...")
+            continue
+        else:
+            response = inp.lower()
+
+    return response == 'y'
