@@ -15,15 +15,6 @@ def show_board(rows):
     for row in rows:
         show_row(row)
 
-# row1 = ['x', ' ', 'o','o','o','o']
-# row2 = ['o', ' ', ' ',' ',' ',' ']
-# row3 = [' ', 'x', 'o','o','o','o']
-# row4 = [' ', 'x', 'o','o','o','o']
-# row5 = [' ', 'x', 'o','o','o','o']
-# row6 = [' ', 'x', 'o','o','o','o']
-
-# show_board([row1, row2, row3,row4,row5,row6])
-
 # Prepare playing board
 def get_board(cell_number=3):
     row = [' '] * cell_number
@@ -33,9 +24,6 @@ def get_board(cell_number=3):
         board.append(row.copy())
 
     return board  
-  
-# board1 = get_board(9)
-# show_board(board1)
 
 def get_action_cell(board):
     cells = []
@@ -63,14 +51,6 @@ def get_action_cell(board):
             chosen_cell_index = int(choice) - 1
     
     return chosen_cell_index
-
-row1 = ['o', 'x', ' ']
-row2 = ['o', 'o', ' ']
-row3 = [' ', 'x', 'o']
-board1 = [row1, row2, row3]
-
-# show_board(board1)
-# print(get_action_cell(board1))
 
 def add_player(chosen_side=None):
     player = {
@@ -114,15 +94,6 @@ def start_log(user, cell_index):
     log['write'](user, cell_index)
 
     return log 
-
-
-# player1 = add_player()
-# log_journal = start_log(player1, 9)
-# log_journal['write'](player1, 3)
-# log_journal['write'](player1, 1)
-# log_journal['write'](player1, 2)
-# log_journal['write'](player1, 7)
-# log_journal['show']()
 
 def make_a_move(player,board):
     print(f'{player['name'].capitalize()}, put a {player['side'].upper()} on a board...')
@@ -169,10 +140,6 @@ def check_winner(board, players):
             break
 
     return game_winner
-
-winner = check_winner(board1, [{ 'name': 'aaaaa', 'side': 'x' }, { 'name': 'nnnn', 'side': 'o' }])
-print(winner)
-
 
 def board_is_full(board):
     return get_cells(board).count(' ') == 0
