@@ -181,3 +181,40 @@ def try_again():
             response = inp.lower()
 
     return response == 'y'
+
+
+def ttt(retry=False):
+    if not retry:
+        print('Hello and welcome to the TTT game!')
+
+    print('Who\'s playing, lets register first player...')
+    players = []
+    players.append(add_player())
+    print()
+    print('Okay, and the second player...')
+    # TODO: set second side automatically
+    players.append(add_player())
+    print()
+
+    board = get_board(3)
+    print('Here is your playing board:')
+    show_board(board)
+    print()
+
+    print('Lets start...')
+
+    no_space_left = False
+    winner = None
+
+    while not winner and not no_space_left:
+        winner = make_turn(board, players)
+        no_space_left = board_is_full(board)
+
+    again = try_again()
+    if again:
+        return ttt(True)
+    else:
+        print('Thanks for playing! Bye!')
+        return
+    
+ttt()
