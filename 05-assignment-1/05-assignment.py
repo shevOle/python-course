@@ -15,6 +15,27 @@ def show_board(rows):
     for row in rows:
         show_row(row)
 
+def show_help():
+    print()
+
+def input_with_help(st):
+    result = None
+
+    while not result:
+        inp = input(st)
+
+        if inp.lower() in ['help', 'h']:
+            help_board = [[1,2,3],[4,5,6],[7,8,9]]
+            print('The game features two players placing their signs on the available (empty) cells of the board, until one side\'s sign form a line or there is no available cells left.')
+            print('Players get to act in turns, placing their signs on the board.')
+            print('To choose what cell to put your sign in, use this map - number depicts a cell on the board.')
+            show_board(help_board)
+            continue
+        else:
+            result = inp
+
+    return result
+
 # Prepare playing board
 def get_board(cell_number=3):
     row = [' '] * cell_number
