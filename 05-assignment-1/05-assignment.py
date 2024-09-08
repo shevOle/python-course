@@ -56,7 +56,7 @@ def get_action_cell(board):
     chosen_cell_index = None
 
     while type(chosen_cell_index) != int:
-        choice = input('Choose a cell to make a move: ')
+        choice = input_with_help('Choose a cell to make a move: ')
 
         if not choice.isdigit():
             print('Please, provide a positive number')
