@@ -99,7 +99,9 @@ def add_player(chosen_side=None):
 
     return player    
 
-def start_log(user, cell_index):
+def start_log(data={ 'user': None, 'cell_index': None }):
+    user = data['user']
+    cell_index = data['cell_index']
     history = []
 
     def show_log():
@@ -112,7 +114,8 @@ def start_log(user, cell_index):
         'show': show_log
     }
 
-    log['write'](user, cell_index)
+    if user and int.is_integer(cell_index):
+        log['write'](user, cell_index)
 
     return log 
 
@@ -124,10 +127,11 @@ def make_a_move(player,board):
     cell_index = action_cell_index % 3
 
     board[row_index][cell_index] = player['side']
-    
+
     print()
     show_board(board)
     print()
+    return action_cell_index
 
 
 
@@ -165,7 +169,7 @@ def check_winner(board, players):
 def board_is_full(board):
     return get_cells(board).count(' ') == 0
 
-def make_turn(board, players):
+def make_turn(board, players, log = None):
     cells = get_cells(board)
     free_cells = cells.count(' ')
 
@@ -180,7 +184,11 @@ def make_turn(board, players):
     winner = None
 
     for player in players:
-        make_a_move(player, board)
+        cell_index = make_a_move(player, board)
+
+        if log:
+            log['write'](player, cell_index)
+
         winner = check_winner(board, players)
 
         if winner:
@@ -205,6 +213,8 @@ def try_again():
 
 
 def ttt(retry=False):
+    log = start_log()
+
     if not retry:
         print('Hello and welcome to the TTT game!')
 
@@ -228,7 +238,7 @@ def ttt(retry=False):
     winner = None
 
     while not winner and not no_space_left:
-        winner = make_turn(board, players)
+        winner = make_turn(board, players,log)
         no_space_left = board_is_full(board)
 
     again = try_again()
