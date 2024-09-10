@@ -15,10 +15,7 @@ def show_board(rows):
     for row in rows:
         show_row(row)
 
-def show_help():
-    print()
-
-def input_with_help(st):
+def custom_input(st, log):
     result = None
 
     while not result:
@@ -26,11 +23,15 @@ def input_with_help(st):
 
         if inp.lower() in ['help', 'h']:
             help_board = [[1,2,3],[4,5,6],[7,8,9]]
+            print()
             print('The game features two players placing their signs on the available (empty) cells of the board, until one side\'s sign form a line or there is no available cells left.')
             print('Players get to act in turns, placing their signs on the board.')
             print('To choose what cell to put your sign in, use this map - number depicts a cell on the board.')
             show_board(help_board)
+            print()
             continue
+        elif inp.lower() == 'log':
+            print(log['show']())
         else:
             result = inp
 
@@ -46,7 +47,7 @@ def get_board(cell_number=3):
 
     return board  
 
-def get_action_cell(board):
+def get_action_cell(board, log):
     cells = []
 
     for row in board:
@@ -56,7 +57,7 @@ def get_action_cell(board):
     chosen_cell_index = None
 
     while type(chosen_cell_index) != int:
-        choice = input_with_help('Choose a cell to make a move: ')
+        choice = custom_input('Choose a cell to make a move: ', log)
 
         if not choice.isdigit():
             print('Please, provide a positive number')
@@ -105,8 +106,15 @@ def start_log(data={ 'user': None, 'cell_index': None }):
     history = []
 
     def show_log():
+        print()
+        print('--------- Log Start ---------')
         for rec in history:
-            print(f'{str(rec['user']['name']).capitalize()} placed {str(rec['user']['side']).upper()} to cell #{rec['move']}')
+            userName = str(rec['user']['name']).capitalize()
+            userSide = str(rec['user']['side']).upper()
+            print(f'{userName} placed {userSide} to cell #{rec['move']}')
+
+        print('--------- Log End ---------')
+        print()
 
     log = {
         'history': history,
@@ -119,10 +127,10 @@ def start_log(data={ 'user': None, 'cell_index': None }):
 
     return log 
 
-def make_a_move(player,board):
+def make_a_move(player,board, log):
     print(f'{player['name'].capitalize()}, put a {player['side'].upper()} on a board...')
 
-    action_cell_index = get_action_cell(board)
+    action_cell_index = get_action_cell(board, log)
     row_index = floor(action_cell_index / 3)
     cell_index = action_cell_index % 3
 
@@ -184,7 +192,7 @@ def make_turn(board, players, log = None):
     winner = None
 
     for player in players:
-        cell_index = make_a_move(player, board)
+        cell_index = make_a_move(player, board, log)
 
         if log:
             log['write'](player, cell_index)
