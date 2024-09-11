@@ -228,11 +228,14 @@ def ttt(retry=False):
 
     print('Who\'s playing, lets register first player...')
     players = []
+    sides = ['x', 'o']
+
     players.append(add_player())
+    sides.remove(players[0]['side'])
     print()
+    
     print('Okay, and the second player...')
-    # TODO: set second side automatically
-    players.append(add_player())
+    players.append(add_player(sides.pop()))
     print()
 
     board = get_board(3)
