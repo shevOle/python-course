@@ -15,6 +15,7 @@ def show_board(rows):
     for row in rows:
         show_row(row)
 
+# Input with additional functionality to show help and log
 def custom_input(st, log):
     result = None
 
@@ -32,9 +33,10 @@ def custom_input(st, log):
             continue
         elif inp.lower() == 'log':
             print(log['show']())
+            print()
+            continue
         else:
             result = inp
-
     return result
 
 # Prepare playing board
@@ -47,6 +49,7 @@ def get_board(cell_number=3):
 
     return board  
 
+# Get user's chosen cell inndex 
 def get_action_cell(board, log):
     cells = []
 
@@ -74,6 +77,7 @@ def get_action_cell(board, log):
     
     return chosen_cell_index
 
+# Create a player object
 def add_player(chosen_side=None):
     player = {
         'name': None,
@@ -100,6 +104,7 @@ def add_player(chosen_side=None):
 
     return player    
 
+# Create a log object with ability to write and read log entries
 def start_log(data={ 'user': None, 'cell_index': None }):
     user = data['user']
     cell_index = data['cell_index']
@@ -112,9 +117,7 @@ def start_log(data={ 'user': None, 'cell_index': None }):
             userName = str(rec['user']['name']).capitalize()
             userSide = str(rec['user']['side']).upper()
             print(f'{userName} placed {userSide} to cell #{rec['move']}')
-
         print('--------- Log End ---------')
-        print()
 
     log = {
         'history': history,
@@ -127,6 +130,7 @@ def start_log(data={ 'user': None, 'cell_index': None }):
 
     return log 
 
+# Ask user to make a move on a board (choose a cell to put X or O)
 def make_a_move(player,board, log):
     print(f'{player['name'].capitalize()}, put a {player['side'].upper()} on a board...')
 
@@ -141,14 +145,14 @@ def make_a_move(player,board, log):
     print()
     return action_cell_index
 
-
-
+# Get board's cells as a flat list
 def get_cells(board):
     cells = board[0].copy()
     cells.extend(board[1])
     cells.extend(board[2])
     return cells
 
+# Check the board against winning combinations list
 def check_winner(board, players):
     cells = get_cells(board)
 
@@ -174,9 +178,11 @@ def check_winner(board, players):
 
     return game_winner
 
+# Check for available cells on a board
 def board_is_full(board):
     return get_cells(board).count(' ') == 0
 
+# Perform a turn: both users making their moves
 def make_turn(board, players, log = None):
     cells = get_cells(board)
     free_cells = cells.count(' ')
@@ -204,7 +210,8 @@ def make_turn(board, players, log = None):
             break
 
     return winner
-        
+
+# Ask if userr wants to play again
 def try_again():
     response = None
 
@@ -219,7 +226,7 @@ def try_again():
 
     return response == 'y'
 
-
+# The game
 def ttt(retry=False):
     log = start_log()
 
