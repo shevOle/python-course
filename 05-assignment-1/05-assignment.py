@@ -32,7 +32,7 @@ def custom_input(st, log):
             print()
             continue
         elif inp.lower() == 'log':
-            print(log['show']())
+            log['show']()
             print()
             continue
         else:
