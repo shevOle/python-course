@@ -15,30 +15,6 @@ def show_board(rows):
     for row in rows:
         show_row(row)
 
-# Input with additional functionality to show help and log
-def custom_input(st, log):
-    result = None
-
-    while not result:
-        inp = input(st)
-
-        if inp.lower() in ['help', 'h']:
-            help_board = [[1,2,3],[4,5,6],[7,8,9]]
-            print()
-            print('The game features two players placing their signs on the available (empty) cells of the board, until one side\'s sign form a line or there is no available cells left.')
-            print('Players get to act in turns, placing their signs on the board.')
-            print('To choose what cell to put your sign in, use this map - number depicts a cell on the board.')
-            show_board(help_board)
-            print()
-            continue
-        elif inp.lower() == 'log':
-            log['show']()
-            print()
-            continue
-        else:
-            result = inp
-    return result
-
 # Prepare playing board
 def get_board(cell_number=3):
     row = [' '] * cell_number
@@ -49,108 +25,16 @@ def get_board(cell_number=3):
 
     return board  
 
-# Get user's chosen cell inndex 
-def get_action_cell(board, log):
-    cells = []
-
-    for row in board:
-        cells.extend(row)
-    
-    available_cells = [ind + 1 for ind, el in enumerate(cells) if not bool(str(el).strip())]
-    chosen_cell_index = None
-
-    while type(chosen_cell_index) != int:
-        choice = custom_input('Choose a cell to make a move: ', log)
-
-        if not choice.isdigit():
-            print('Please, provide a positive number')
-            continue
-        elif int(choice) not in range(1, len(cells) + 1):
-            print(f'Choose a number between 1 and {len(cells)}')
-            continue
-        elif int(choice) not in available_cells:
-            print(f'Cell {choice} was already picked, here\'s the board: ')
-            show_board(board)
-            continue
-        else:
-            chosen_cell_index = int(choice) - 1
-    
-    return chosen_cell_index
-
-# Create a player object
-def add_player(chosen_side=None):
-    player = {
-        'name': None,
-        'side': chosen_side,
-    }
-    
-    while not player['name']:
-        name = input('What is your name: ').strip()
-
-        if len(name) == 0:
-            print('Please provide a name')
-            continue
-        
-        player['name'] = name
-
-    while not player['side']:
-        side = input('What side will you choose (X or O): ').strip().lower()
-
-        if side not in ['x', 'o']:
-            print('Please, choose either X or O')
-            continue
-        
-        player['side'] = side
-
-    return player    
-
-# Create a log object with ability to write and read log entries
-def start_log(data={ 'user': None, 'cell_index': None }):
-    user = data['user']
-    cell_index = data['cell_index']
-    history = []
-
-    def show_log():
-        print()
-        print('--------- Log Start ---------')
-        for rec in history:
-            userName = str(rec['user']['name']).capitalize()
-            userSide = str(rec['user']['side']).upper()
-            print(f'{userName} placed {userSide} to cell #{rec['move']}')
-        print('--------- Log End ---------')
-
-    log = {
-        'history': history,
-        'write': lambda user, cell_index: history.append({ 'user': user, 'move': cell_index + 1 }),
-        'show': show_log
-    }
-
-    if user and int.is_integer(cell_index):
-        log['write'](user, cell_index)
-
-    return log 
-
-# Ask user to make a move on a board (choose a cell to put X or O)
-def make_a_move(player,board, log):
-    print(f'{player['name'].capitalize()}, put a {player['side'].upper()} on a board...')
-
-    action_cell_index = get_action_cell(board, log)
-    row_index = floor(action_cell_index / 3)
-    cell_index = action_cell_index % 3
-
-    board[row_index][cell_index] = player['side']
-
-    print()
-    show_board(board)
-    print()
-    return action_cell_index
-
 # Get board's cells as a flat list
 def get_cells(board):
     cells = board[0].copy()
     cells.extend(board[1])
     cells.extend(board[2])
     return cells
+
+# Check for available cells on a board
+def board_is_full(board):
+    return get_cells(board).count(' ') == 0
 
 # Check the board against winning combinations list
 def check_winner(board, players):
@@ -178,9 +62,125 @@ def check_winner(board, players):
 
     return game_winner
 
-# Check for available cells on a board
-def board_is_full(board):
-    return get_cells(board).count(' ') == 0
+# Create a log object with ability to write and read log entries
+def start_log(data={ 'user': None, 'cell_index': None }):
+    user = data['user']
+    cell_index = data['cell_index']
+    history = []
+
+    def show_log():
+        print()
+        print('--------- Log Start ---------')
+        for rec in history:
+            userName = str(rec['user']['name']).capitalize()
+            userSide = str(rec['user']['side']).upper()
+            print(f'{userName} placed {userSide} to cell #{rec['move']}')
+        print('--------- Log End ---------')
+
+    log = {
+        'history': history,
+        'write': lambda user, cell_index: history.append({ 'user': user, 'move': cell_index + 1 }),
+        'show': show_log
+    }
+
+    if user and int.is_integer(cell_index):
+        log['write'](user, cell_index)
+
+    return log 
+
+# Input with additional functionality to show help and log
+def custom_input(st, log):
+    result = None
+
+    while not result:
+        inp = input(st)
+
+        if inp.lower() in ['help', 'h']:
+            help_board = [[1,2,3],[4,5,6],[7,8,9]]
+            print()
+            print('The game features two players placing their signs on the available (empty) cells of the board, until one side\'s sign form a line or there is no available cells left.')
+            print('Players get to act in turns, placing their signs on the board.')
+            print('To choose what cell to put your sign in, use this map - number depicts a cell on the board.')
+            show_board(help_board)
+            print()
+            continue
+        elif inp.lower() == 'log':
+            log['show']()
+            print()
+            continue
+        else:
+            result = inp
+    return result
+
+# Create a player object
+def add_player(chosen_side=None):
+    player = {
+        'name': None,
+        'side': chosen_side,
+    }
+    
+    while not player['name']:
+        name = input('What is your name: ').strip()
+
+        if len(name) == 0:
+            print('Please provide a name')
+            continue
+        
+        player['name'] = name
+
+    while not player['side']:
+        side = input('What side will you choose (X or O): ').strip().lower()
+
+        if side not in ['x', 'o']:
+            print('Please, choose either X or O')
+            continue
+        
+        player['side'] = side
+
+    return player  
+
+# Get user's chosen cell inndex 
+def get_action_cell(board, log):
+    cells = []
+
+    for row in board:
+        cells.extend(row)
+    
+    available_cells = [ind + 1 for ind, el in enumerate(cells) if not bool(str(el).strip())]
+    chosen_cell_index = None
+
+    while type(chosen_cell_index) != int:
+        choice = custom_input('Choose a cell to make a move: ', log)
+
+        if not choice.isdigit():
+            print('Please, provide a positive number')
+            continue
+        elif int(choice) not in range(1, len(cells) + 1):
+            print(f'Choose a number between 1 and {len(cells)}')
+            continue
+        elif int(choice) not in available_cells:
+            print(f'Cell {choice} was already picked, here\'s the board: ')
+            show_board(board)
+            continue
+        else:
+            chosen_cell_index = int(choice) - 1
+    
+    return chosen_cell_index  
+
+# Ask user to make a move on a board (choose a cell to put X or O)
+def make_a_move(player,board, log):
+    print(f'{player['name'].capitalize()}, put a {player['side'].upper()} on a board...')
+
+    action_cell_index = get_action_cell(board, log)
+    row_index = floor(action_cell_index / 3)
+    cell_index = action_cell_index % 3
+
+    board[row_index][cell_index] = player['side']
+
+    print()
+    show_board(board)
+    print()
+    return action_cell_index
 
 # Perform a turn: both users making their moves
 def make_turn(board, players, log = None):
